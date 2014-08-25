@@ -1,0 +1,43 @@
+sparesFormater=function(warranty){
+sparesTable=data.frame()
+output=data.frame()
+
+for(i in 1:length(warranty)){
+  data=warranty[[i]]
+  
+  spare.parts=which(grepl("Spare", names(data)))
+  quantity=which(grepl("Quant", names(data)))
+  price=which(grepl("Price", names(data)))
+
+  for(j in 1:length(spare.parts)){
+    spares=data.frame(data$ServiceNo)
+    spares[2]=i
+    spares[3]=data[spare.parts[j]]
+    spares[4]=data[price[j]]
+    
+    errortest=tryCatch(
+    data[quantity[j]],
+    error=function(e) e
+    )
+    
+    
+    if(inherits(errortest, "error")){
+    spares[5]=NA
+    }
+    
+    if(!inherits(errortest, "error")){
+    spares[5]=data[quantity[j]]
+    }
+    
+  
+  colnames(spares)=c("ServiceNo", "Source", "Spare part", "Price", "Quantity") 
+  if(length(which(is.na(spares[3])))>0) spares=spares[-which(is.na(spares[3])),]
+  sparesTable=rbind(spares, sparesTable)
+  }
+  
+sparesTable=sparesTable[-which(sparesTable[3]==""),]
+
+output=rbind(sparesTable, output)
+}
+return(output)
+}
