@@ -1,4 +1,4 @@
-sparesFormater=function(warranty){
+formatSpares=function(warranty){
 sparesTable=data.frame()
 output=data.frame()
 
@@ -41,3 +41,19 @@ output=rbind(sparesTable, output)
 }
 return(output)
 }
+
+
+formatServiceNo(warranty){
+mainTable=data.frame()
+
+
+
+for(i in 1:length(warranty)){
+  data=warranty[[i]]
+  retailer=which(grepl("retailer", names(data)))
+  imei=which(grepl("imei", names(data)))
+  imei=which(grepl("imei", names(data)))
+  imei=which(grepl("imei", names(data)))
+  imei=which(grepl("imei", names(data)))
+  imei=which(grepl("imei", names(data)))
+  interimTable=data.frame(data$ServiceNo)
