@@ -1,4 +1,5 @@
 Optima-data-formater
 ====================
 
-Tool to format Optima reports
+All excel files must be in 97-2003 format
+Make sure dates are formated in the same way
