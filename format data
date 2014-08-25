@@ -30,7 +30,7 @@ for(i in 1:length(warranty)){
     }
     
   
-  colnames(spares)=c("ServiceNo", "Source", "Spare part", "Price", "Quantity") 
+  colnames(spares)=c("ServiceNo", "Source", "Product Code", "Price", "Quantity") 
   if(length(which(is.na(spares[3])))>0) spares=spares[-which(is.na(spares[3])),]
   sparesTable=rbind(spares, sparesTable)
   }
@@ -43,17 +43,34 @@ return(output)
 }
 
 
-formatServiceNo(warranty){
+formatServiceNo=function(warranty){
 mainTable=data.frame()
-
-
 
 for(i in 1:length(warranty)){
   data=warranty[[i]]
-  retailer=which(grepl("retailer", names(data)))
-  imei=which(grepl("imei", names(data)))
-  imei=which(grepl("imei", names(data)))
-  imei=which(grepl("imei", names(data)))
-  imei=which(grepl("imei", names(data)))
-  imei=which(grepl("imei", names(data)))
+  
+  retailer=which(grepl("Retailer", names(data)))
+  imei=which(grepl("IMEI", names(data)))
+  serialnumber=which(grepl("Serial.n", names(data)))
+  symptom=which(grepl("Symptom", names(data)))
+  servicetype=which(grepl("Service.type", names(data)))
+  repairreceived=which(grepl("Repair.Received", names(data)))
+  repaircompleted=which(grepl("Repair.Completed", names(data)))
+  
   interimTable=data.frame(data$ServiceNo)
+  interimTable[2]=data[imei[1]]
+  interimTable[3]=data[serialnumber[1]]
+  interimTable[4]=data[retailer[1]]
+  interimTable[5]=data[symptom[1]]
+  interimTable[6]=data[servicetype[1]]
+  interimTable[7]=data[repairreceived[1]]
+  interimTable[8]=data[repaircompleted[1]]
+  
+  if(length(which(is.na(interimTable[1])))>0) interimTable=interimTable[-which(is.na(interimTable[1])),]
+  
+  mainTable=rbind(interimTable, mainTable)
+  }
+
+names(mainTable)[1]="ServiceNo"
+return(mainTable)
+}
