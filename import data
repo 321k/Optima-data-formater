@@ -1,9 +1,10 @@
 library(xlsx)
-path.dav="//apt.jollamobile.com@SSL/dav/Operations/3 Customer Care/4 Break-Fix Solution/Repair reporting/All Repairs/2014/"
+
 path="C:/Users/erik.johansson/Desktop/Optima test"
+
+importData=function(path.dav="//apt.jollamobile.com@SSL/dav/Operations/3 Customer Care/4 Break-Fix Solution/Repair reporting/All Repairs/2014/") {
 filenames=paste(path, "/", list.files(path), sep="")
 
-importData=function(path) {
 for(i in 1:length(filenames)){
   if(grepl("~", filenames[i])==TRUE) filenames=filenames[-i]
   }
