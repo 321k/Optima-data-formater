@@ -65,6 +65,7 @@ for(i in 1:length(warranty)){
   interimTable[6]=data[servicetype[1]]
   interimTable[7]=data[repairreceived[1]]
   interimTable[8]=data[repaircompleted[1]]
+  interimTable[9]=i
   
   if(length(which(is.na(interimTable[1])))>0) interimTable=interimTable[-which(is.na(interimTable[1])),]
   
