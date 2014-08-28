@@ -2,7 +2,7 @@ library(xlsx)
 
 path="C:/Users/erik.johansson/Desktop/Optima test"
 
-importData=function(path.dav="//apt.jollamobile.com@SSL/dav/Operations/3 Customer Care/4 Break-Fix Solution/Repair reporting/All Repairs/2014/") {
+importData=function(path.dav="//apt.jollamobile.com@SSL/dav/Operations/3 Customer Care/4 Break-Fix Solution/Repair reporting/All Repairs/Analysis/Data") {
 filenames=paste(path, "/", list.files(path), sep="")
 
 for(i in 1:length(filenames)){
