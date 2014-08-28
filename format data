@@ -2,6 +2,7 @@ formatSpares=function(warranty){
 sparesTable=data.frame()
 output=data.frame()
 
+
 for(i in 1:length(warranty)){
   data=warranty[[i]]
   
@@ -42,7 +43,6 @@ output=rbind(sparesTable, output)
 return(output)
 }
 
-
 formatServiceNo=function(warranty){
 mainTable=data.frame()
 
@@ -55,6 +55,8 @@ for(i in 1:length(warranty)){
   symptom=which(grepl("Symptom", names(data)))
   servicetype=which(grepl("Service.type", names(data)))
   repairreceived=which(grepl("Repair.Received", names(data)))
+  repaircompleted=which(grepl("Repair.Completed", names(data)))
+  
   repaircompleted=which(grepl("Repair.Completed", names(data)))
   
   interimTable=data.frame(data$ServiceNo)
@@ -75,3 +77,16 @@ for(i in 1:length(warranty)){
 names(mainTable)[1]="ServiceNo"
 return(mainTable)
 }
+
+
+#repairs.raw=importData()
+total=repairs.raw[[1]]
+warranty=repairs.raw[[2]]
+oow=repairs.raw[[3]]
+bounce=repairs.raw[[4]]
+spares=formatSpares(warranty)
+warranty=formatServiceNo(warranty)
+oow=formatServuceNo(warranty)
+masterTable=rbind(warranty, oow)
+
+ 
