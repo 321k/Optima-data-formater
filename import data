@@ -1,4 +1,4 @@
-path="C:/Users/erik.johansson/Desktop/Optima test"
+path="C:/Users/erik.johansson/Desktop/Optima reports"
 
 importData=function(path="https://dav.jollamobile.com/dav/Operations/3%20Customer%20Care/4%20Break-Fix%20Solution/Repair%20reporting/All%20Repairs/2014/2b%20Saved%20under%20old%20Excel%20version/") {
 filenames=paste(path, "/", list.files(path), sep="")
