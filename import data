@@ -10,7 +10,7 @@ for(i in 1:length(filenames)){
 output=list()
 for(i in 1:length(filenames)){
 print(i)
-output[[i]]=xlsxToR(filenames[i], header=T)
+output[[i]]=xlsxToR(file=filenames[i], header=TRUE)
 }
 
 return(output)
