@@ -19,6 +19,7 @@ formatMain=function(optima.raw){
     warrantyTable=rbind(main, warrantyTable)
   }
   warrantyTable[length(warrantyTable)+1]="Warranty"
+  names(warrantyTable)[length(warrantyTable)]="Status"
   
   for(i in 1:length(optima.raw)){
     data=optima.raw[[i]]$OOW
@@ -33,6 +34,7 @@ formatMain=function(optima.raw){
     oowTable=rbind(main, oowTable)
   }
   oowTable[length(oowTable)+1]="OOW"
+  names(oowTable)[length(oowTable)]="Status"
   
   output=rbind(oowTable, warrantyTable)
   
