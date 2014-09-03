@@ -1,0 +1,55 @@
+formatSpares=function(optima.raw){
+  
+  warrantySpares=data.frame()
+  oowSpares=data.frame()
+  warranty=list()
+  oow=list()
+  
+  for(i in 1:length(optima.raw)){
+    warranty[[i]]=optima.raw[[i]]$Warranty
+  }
+
+  for(i in 1:length(warranty)){
+    data=warranty[[i]]
+    spare.parts=which(grepl("Spare", names(data)))
+    
+    for(j in 1:length(spare.parts)){
+      spares=data.frame(data$ServiceNo)
+      spares[2]=i
+      spares[3]=data[spare.parts[j]]
+
+      colnames(spares)=c("ServiceNo", "Source", "Product Code") 
+      if(length(which(is.na(spares[3])))>0) spares=spares[-which(is.na(spares[3])),]
+      warrantySpares=rbind(spares, warrantySpares)
+    }
+  warrantySpares=warrantySpares[-which(warrantySpares[3]==""),]
+  }
+  warrantySpares[4]="Warranty"
+
+  for(i in 1:length(optima.raw)){
+    oow[[i]]=optima.raw[[i]]$Warranty
+  }
+
+  for(i in 1:length(oow)){
+    data=oow[[i]]
+    spare.parts=which(grepl("Spare", names(data)))
+    
+    for(j in 1:length(spare.parts)){
+      spares=data.frame(data$ServiceNo)
+      spares[2]=i
+      spares[3]=data[spare.parts[j]]
+
+      colnames(spares)=c("ServiceNo", "Source", "Product Code") 
+      if(length(which(is.na(spares[3])))>0) spares=spares[-which(is.na(spares[3])),]
+      oowSpares=rbind(spares, oowSpares)
+    }
+  oowSpares=oowSpares[-which(oowSpares[3]==""),]
+  }
+  oowSpares[4]="OOW"
+
+  output=rbind(oowSpares, warrantySpares)
+  names(output)[4]="Status"
+
+  return(output)
+}
+ 
