@@ -8,5 +8,5 @@ for(i in 1:length(optima.raw)) print(names(optima.raw[[i]]))
 optima.main=formatMain(optima.raw)
 optima.spares=formatSpares(optima.raw)
 
-fullTable=merge(optima.spares, optima.main, by="ServiceNo")
-write.csv(fullTable, sep=";")
+optimaData=merge(optima.spares, optima.main, by="ServiceNo")
+write.table(optimaData, "Optima Data.csv", sep=";")
