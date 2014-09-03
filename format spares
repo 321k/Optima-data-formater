@@ -27,7 +27,7 @@ formatSpares=function(optima.raw){
   warrantySpares[4]="Warranty"
 
   for(i in 1:length(optima.raw)){
-    oow[[i]]=optima.raw[[i]]$Warranty
+    oow[[i]]=optima.raw[[i]]$OOW
   }
 
   for(i in 1:length(oow)){
