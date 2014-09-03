@@ -9,13 +9,32 @@ formatMain=function(optima.raw){
     data=optima.raw[[i]]$Warranty
     main=data.frame(data$ServiceNo)
     
+    
     for(j in 1:length(lookup)){
-     main[j]=data[which(grepl(lookup[j], names(data)))[1]]
+      main[j]=NA
+      main[j]=data[which(grepl(lookup[j], names(data)))[1]]
     }
     names(main)=lookup
     if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
     warrantyTable=rbind(main, warrantyTable)
   }
+  warrantyTable[length(warrantyTable)+1]="Warranty"
   
-  return(warrantyTable)
+  for(i in 1:length(optima.raw)){
+    data=optima.raw[[i]]$OOW
+    main=data.frame(data$ServiceNo)
+    
+    for(j in 1:length(lookup)){
+      main[j]=NA
+      main[j]=data[which(grepl(lookup[j], names(data)))[1]]
+    }
+    names(main)=lookup
+    if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
+    oowTable=rbind(main, oowTable)
+  }
+  oowTable[length(oowTable)+1]="OOW"
+  
+  output=rbind(oowTable, warrantyTable)
+  
+  return(output)
 }
