@@ -1,0 +1,21 @@
+formatMain=function(optima.raw){
+  warrantyTable=data.frame()
+  oowTable=data.frame()
+  warranty=list()
+  oow=list()
+  lookup=c("ServiceNo", "Retailer", "IMEI", "Serial n", "Symptom", "Service type", "Purchase Date", "Repair Received", "Repair Completed")
+
+  for(i in 1:length(optima.raw)){
+    data=optima.raw[[i]]$Warranty
+    main=data.frame(data$ServiceNo)
+    
+    for(j in 1:length(lookup)){
+     main[j]=data[which(grepl(lookup[j], names(data)))[1]]
+    }
+    names(main)=lookup
+    if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
+    warrantyTable=rbind(main, warrantyTable)
+  }
+  
+  return(warrantyTable)
+}
