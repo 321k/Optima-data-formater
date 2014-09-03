@@ -1,0 +1,12 @@
+path="C:/Users/erik.johansson/Desktop/Optima reports"
+optima.raw=importData(path)
+
+### Check that the sheet names are correct:
+### Total, Warranties, OOW, Bounce
+for(i in 1:length(optima.raw)) print(names(optima.raw[[i]]))
+
+optima.main=formatMain(optima.raw)
+optima.spares=formatSpares(optima.raw)
+
+merge(optima.spares, optima.main, by="ServiceNo")
+
