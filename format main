@@ -13,16 +13,22 @@ temp_path=paste("optima.raw[[i]]$", sheet, sep="")
 data=eval(parse(text=temp_path))
 
 main=data.frame(data$ServiceNo)
+
 for(j in 1:length(lookup)){
 
 if(dim(main)[1]>0) main[j]=NA
 main[j]=data[which(grepl(lookup[j], names(data)))[1]]
 }
+
+names(main)=lookup
+
+if(dim(main)[1]>0) {
 main[j+1]=i
 main[j+2]=sheet
-names(main)=lookup
 names(main)[j+1]="Source"
 names(main)[j+2]="Table"
+}
+
 if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
 warrantyTable=rbind(main, warrantyTable)
 }
