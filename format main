@@ -1,36 +1,37 @@
-formatMain=function(optima.raw, sheet="Warranty", lookup=c("ServiceNo", "Retailer", "IMEI", "Serial n", "Symptom", "Service type", "Purchase Date", "Repair Received", "Repair Completed")){
+formatMain=function(optima.raw, sheet="Warranty", lookup=c("ServiceNo", "Retailer")){
 
 warrantyTable=data.frame()
 oowTable=data.frame()
 warranty=list()
 oow=list()
 
-
-
 for(i in 1:length(optima.raw)){
+  temp_path=paste("optima.raw[[i]]$", sheet, sep="")
+  data=eval(parse(text=temp_path))
 
-temp_path=paste("optima.raw[[i]]$", sheet, sep="")
-data=eval(parse(text=temp_path))
+  main=data.frame(data$ServiceNo)
 
-main=data.frame(data$ServiceNo)
+  for(j in 1:length(lookup)){
+  
+    if(dim(main)[1]>0) main[j]=NA
+    
+    error_handler=try(data[which(grepl(lookup[j], names(data)))[1]], silent=T)
+    if("try-error" %in% class(error_handler)) {
+      main[j]=NA
+    } else {main[j]=data[which(grepl(lookup[j], names(data)))[1]]}
+  }
 
-for(j in 1:length(lookup)){
+  names(main)=lookup
 
-if(dim(main)[1]>0) main[j]=NA
-main[j]=data[which(grepl(lookup[j], names(data)))[1]]
-}
+  if(dim(main)[1]>0) {
+    main[j+1]=i
+    main[j+2]=sheet
+    names(main)[j+1]="Source"
+    names(main)[j+2]="Table"
+  }
 
-names(main)=lookup
-
-if(dim(main)[1]>0) {
-main[j+1]=i
-main[j+2]=sheet
-names(main)[j+1]="Source"
-names(main)[j+2]="Table"
-}
-
-if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
-warrantyTable=rbind(main, warrantyTable)
+  if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
+  warrantyTable=rbind(main, warrantyTable)
 }
 
 return(warrantyTable)
