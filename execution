@@ -1,16 +1,30 @@
 path="C:/Users/erik.johansson/Desktop/Optima reports"
+path.price="H:/Jolla/Care database/Spare part price.csv"
 optima.raw=importData(path)
 
 ### Check that the sheet names are correct:
 ### Total, Warranties, OOW, Bounce
 for(i in 1:length(optima.raw)) print(names(optima.raw[[i]]))
 
-lookup.w=c("ServiceNo", "Retailer", "IMEI", "Serial n", "Symptom", "Service type", "Purchase Date", "Repair Received", "Repair Completed")
-optima.warranty=formatMain(optima.raw, lookup=lookup.w, sheet="Warranty")
+#for(i in 1:length(optima.raw)) print(length(names(optima.raw[[i]]$Warranty)))
+#for(i in 1:length(optima.raw)) print(names(optima.raw[[i]]$Warranty))
+#for(i in 1:length(optima.raw)) print(names(optima.raw[[i]]$OOW))
 
-lookup.o=lookup.w
-optima.oow=formatMain(optima.raw, sheet="OOW", lookup=lookup.o)
+
+headings=c("ServiceNo", "Retailer", "IMEI", "Serial n", "Symptom", "Service type", "Purchase Date", "Repair Received", "Repair Completed", "Job ", "Freight")
+
+optima.warranty=formatMain(optima.raw, lookup=headings, sheet="Warranty")
+optima.oow=formatMain(optima.raw, sheet="OOW", lookup=headings)
 optima.spares=formatSpares(optima.raw)
+optima.price=read.csv(path.price, sep=";")
+names(optima.price)[1]="Product Code"
 
-optimaData=merge(optima.spares, optima.warranty, by="ServiceNo")
-write.table(optima.warranty, "Optima Warranty.csv", sep=";")
+optima.spares.p=merge(optima.spares, optima.price, by="Product Code")
+optima.DB=rbind(optima.warranty, optima.oow)
+optima.spares.DB=merge(optima.spares.p, optima.DB,  by="ServiceNo")
+
+temp_table=ddply(optima.spares.p, "ServiceNo", numcolwise(sum))[c(1,4)]
+optima.DB=merge(optima.DB, temp_table, by="ServiceNo", all.x=T)
+
+write.table(optima.DB, "Optima DB.csv", sep=";")
+write.table(optima.spares.p, "Optima spares DB.csv", sep=";")
