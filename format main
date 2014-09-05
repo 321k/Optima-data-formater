@@ -1,42 +1,26 @@
-formatMain=function(optima.raw){
-  warrantyTable=data.frame()
-  oowTable=data.frame()
-  warranty=list()
-  oow=list()
-  lookup=c("ServiceNo", "Retailer", "IMEI", "Serial n", "Symptom", "Service type", "Purchase Date", "Repair Received", "Repair Completed")
+formatMain=function(optima.raw, sheet="Warranty", lookup=c("ServiceNo", "Retailer", "IMEI", "Serial n", "Symptom", "Service type", "Purchase Date", "Repair Received", "Repair Completed")){
 
-  for(i in 1:length(optima.raw)){
-    data=optima.raw[[i]]$Warranty
-    main=data.frame(data$ServiceNo)
-    
-    
-    for(j in 1:length(lookup)){
-      main[j]=NA
-      main[j]=data[which(grepl(lookup[j], names(data)))[1]]
-    }
-    names(main)=lookup
-    if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
-    warrantyTable=rbind(main, warrantyTable)
-  }
-  warrantyTable[length(warrantyTable)+1]="Warranty"
-  names(warrantyTable)[length(warrantyTable)]="Status"
-  
-  for(i in 1:length(optima.raw)){
-    data=optima.raw[[i]]$OOW
-    main=data.frame(data$ServiceNo)
-    
-    for(j in 1:length(lookup)){
-      main[j]=NA
-      main[j]=data[which(grepl(lookup[j], names(data)))[1]]
-    }
-    names(main)=lookup
-    if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
-    oowTable=rbind(main, oowTable)
-  }
-  oowTable[length(oowTable)+1]="OOW"
-  names(oowTable)[length(oowTable)]="Status"
-  
-  output=rbind(oowTable, warrantyTable)
-  
-  return(output)
+warrantyTable=data.frame()
+oowTable=data.frame()
+warranty=list()
+oow=list()
+
+
+
+for(i in 1:length(optima.raw)){
+
+temp_path=paste("optima.raw[[i]]$", sheet, sep="")
+data=eval(parse(text=temp_path))
+
+main=data.frame(data$ServiceNo)
+for(j in 1:length(lookup)){
+main[j]=NA
+main[j]=data[which(grepl(lookup[j], names(data)))[1]]
+}
+names(main)=lookup
+if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
+warrantyTable=rbind(main, warrantyTable)
+}
+
+return(warrantyTable)
 }
