@@ -1,4 +1,4 @@
-formatSpares=function(optima.raw){
+formatSpares=function(optima.raw, table="Warranty"){
   
   warrantySpares=data.frame()
   oowSpares=data.frame()
