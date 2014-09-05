@@ -5,8 +5,12 @@ optima.raw=importData(path)
 ### Total, Warranties, OOW, Bounce
 for(i in 1:length(optima.raw)) print(names(optima.raw[[i]]))
 
-optima.main=formatMain(optima.raw)
+lookup.w=c("ServiceNo", "Retailer", "IMEI", "Serial n", "Symptom", "Service type", "Purchase Date", "Repair Received", "Repair Completed")
+optima.warranty=formatMain(optima.raw, lookup=lookup.w, sheet="Warranty")
+
+lookup.o=lookup.w
+optima.oow=formatMain(optima.raw, sheet="OOW", lookup=lookup.o)
 optima.spares=formatSpares(optima.raw)
 
-optimaData=merge(optima.spares, optima.main, by="ServiceNo")
-write.table(optimaData, "Optima Data.csv", sep=";")
+optimaData=merge(optima.spares, optima.warranty, by="ServiceNo")
+write.table(optima.warranty, "Optima Warranty.csv", sep=";")
