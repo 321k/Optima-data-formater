@@ -14,10 +14,13 @@ data=eval(parse(text=temp_path))
 
 main=data.frame(data$ServiceNo)
 for(j in 1:length(lookup)){
-main[j]=NA
+
+if(dim(main)[1]>0) main[j]=NA
 main[j]=data[which(grepl(lookup[j], names(data)))[1]]
 }
+main[j+1]=i
 names(main)=lookup
+names(main)[j+1]="Source"
 if(length(which(is.na(main[1])))>0) main=main[-which(is.na(main[1])),]
 warrantyTable=rbind(main, warrantyTable)
 }
