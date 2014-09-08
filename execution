@@ -1,4 +1,4 @@
-path="C:/Users/erik.johansson/Desktop/Optima reports"
+path="H:/Jolla/Care database/Optima reports"
 path.price="H:/Jolla/Care database/Spare part price.csv"
 optima.raw=importData(path)
 
