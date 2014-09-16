@@ -27,5 +27,10 @@ optima.spares.DB=merge(optima.spares.p, optima.DB,  by="ServiceNo")
 temp_table=ddply(optima.spares.p, "ServiceNo", numcolwise(sum))[c(1,4)]
 optima.DB=merge(optima.DB, temp_table, by="ServiceNo", all.x=T)
 optima.DB[which(is.na(optima.DB[,14])),14]=0
+
+temp=optima.DB[which(is.na(as.numeric(optima.DB[,08]))),8]
+optima.DB[which(is.na(as.numeric(optima.DB[,08]))),8]=as.Date(temp, "%d.%m.%Y")
+optima.DB[-which(is.na(as.numeric(optima.DB[,08]))),8]=as.Date(temp, "%d.%m.%Y")
+
 write.table(optima.DB, "Optima DB.csv", sep=";", row.names=F)
 write.table(optima.spares.p, "Optima spares DB.csv", sep=";", row.names=F)
