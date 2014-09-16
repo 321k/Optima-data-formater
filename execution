@@ -2,6 +2,7 @@ path="H:/Jolla/Care database/Optima reports/1"
 path.price="H:/Jolla/Care database/Spare part price.csv"
 optima.raw=importData(path)
 
+
 ### Check that the sheet names are correct:
 ### Total, Warranties, OOW, Bounce
 for(i in 1:length(optima.raw)) print(names(optima.raw[[i]]))
