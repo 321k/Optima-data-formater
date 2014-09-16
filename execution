@@ -26,6 +26,6 @@ optima.spares.DB=merge(optima.spares.p, optima.DB,  by="ServiceNo")
 
 temp_table=ddply(optima.spares.p, "ServiceNo", numcolwise(sum))[c(1,4)]
 optima.DB=merge(optima.DB, temp_table, by="ServiceNo", all.x=T)
-
-write.table(optima.DB, "Optima DB.csv", sep=";")
-write.table(optima.spares.p, "Optima spares DB.csv", sep=";")
+optima.DB[which(is.na(optima.DB[,14])),14]=0
+write.table(optima.DB, "Optima DB.csv", sep=";", row.names=F)
+write.table(optima.spares.p, "Optima spares DB.csv", sep=";", row.names=F)
