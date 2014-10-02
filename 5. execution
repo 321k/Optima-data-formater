@@ -1,7 +1,7 @@
 path="H:/Jolla/Care database/Optima reports"
 path.price="H:/Jolla/Care database/Spare part price.csv"
 optima.raw=importData(path)
-
+setwd("H:/Jolla/Care database")
 
 ### Check that the sheet names are correct:
 ### Total, Warranties, OOW, Bounce
@@ -20,31 +20,33 @@ optima.spares=formatSpares(optima.raw)
 optima.price=read.csv(path.price, sep=";")
 names(optima.price)[1]="Product Code"
 
-optima.spares.p=merge(optima.spares, optima.price, by="Product Code")
-optima.DB=rbind(optima.warranty, optima.oow)
-optima.spares.DB=merge(optima.spares.p, optima.DB,  by="ServiceNo")
+#optima.spares.p=merge(optima.spares, optima.price, by="Product Code")
+#optima.DB=rbind(optima.warranty, optima.oow)
+#optima.spares.DB=merge(optima.spares.p, optima.DB,  by="ServiceNo")
 
 temp_table=ddply(optima.spares.p, "ServiceNo", numcolwise(sum))[c(1,4)]
 optima.DB=merge(optima.DB, temp_table, by="ServiceNo", all.x=T)
 optima.DB[which(is.na(optima.DB[,14])),14]=0
+optima.DB[which(is.na(optima.DB[,10])),10]=0
+optima.DB[which(is.na(optima.DB[,11])),11]=0
 
-optima.DB[which(grepl("-", optima.DB[,7])),7]=NA
-temp=optima.DB[which(is.na(as.numeric(optima.DB[,7]))),7]
-optima.DB[which(is.na(as.numeric(optima.DB[,7]))),7]=as.Date(temp, "%d.%m.%Y")
-optima.DB[-which(is.na(as.numeric(optima.DB[,7]))),7]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,7]))),7], "%d.%m.%Y", origin="1900-01-01")
-optima.DB[,7]=as.Date(as.numeric(optima.DB[,7]), origin="1900-01-01")
+#optima.DB[which(grepl("-", optima.DB[,7])),7]=NA
+#temp=optima.DB[which(is.na(as.numeric(optima.DB[,7]))),7]
+#optima.DB[which(is.na(as.numeric(optima.DB[,7]))),7]=as.Date(temp, "%d.%m.%Y")
+#optima.DB[-which(is.na(as.numeric(optima.DB[,7]))),7]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,7]))),7], "%d.%m.%Y", origin="1900-01-01")
+#optima.DB[,7]=as.Date(as.numeric(optima.DB[,7]), origin="1900-01-01")
 
-temp=optima.DB[which(is.na(as.numeric(optima.DB[,8]))),8]
-optima.DB[which(is.na(as.numeric(optima.DB[,8]))),8]=as.Date(temp, "%d.%m.%Y")
-optima.DB[-which(is.na(as.numeric(optima.DB[,8]))),8]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,8]))),8], "%d.%m.%Y", origin="1900-01-01")
-optima.DB[,8]=as.Date(as.numeric(optima.DB[,8]), origin="1900-01-01")
+#temp=optima.DB[which(is.na(as.numeric(optima.DB[,8]))),8]
+#optima.DB[which(is.na(as.numeric(optima.DB[,8]))),8]=as.Date(temp, "%d.%m.%Y")
+#optima.DB[-which(is.na(as.numeric(optima.DB[,8]))),8]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,8]))),8], "%d.%m.%Y", origin="1900-01-01")
+#optima.DB[,8]=as.Date(as.numeric(optima.DB[,8]), origin="1900-01-01")
 
-temp=optima.DB[which(is.na(as.numeric(optima.DB[,9]))),9]
-optima.DB[which(is.na(as.numeric(optima.DB[,9]))),9]=as.Date(temp, "%d.%m.%Y")
-optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9], "%d.%m.%Y", origin="1900-01-01")
-optima.DB[,9]=as.Date(as.numeric(optima.DB[,9]), origin="1900-01-01")
+#temp=optima.DB[which(is.na(as.numeric(optima.DB[,9]))),9]
+#optima.DB[which(is.na(as.numeric(optima.DB[,9]))),9]=as.Date(temp, "%d.%m.%Y")
+#optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9], "%d.%m.%Y", origin="1900-01-01")
+#optima.DB[,9]=as.Date(as.numeric(optima.DB[,9]), origin="1900-01-01")
 
 colnames(optima.DB)[13]="Type"
-colnames(optima.DB)[14]="Total cost"
+colnames(optima.DB)[14]="Cost of spares"
 write.table(optima.DB, "Optima DB.csv", sep=";", row.names=F)
 write.table(optima.spares.p, "Optima spares DB.csv", sep=";", row.names=F)
