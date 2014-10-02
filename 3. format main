@@ -23,7 +23,7 @@ for(i in 1:length(optima.raw)){
 
   names(main)=lookup
 
-  if(dim(main)[1]>0) {
+  if(nrow(main)>0) {
     main[j+1]=i
     main[j+2]=sheet
     names(main)[j+1]="Source"
