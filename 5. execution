@@ -20,9 +20,9 @@ optima.spares=formatSpares(optima.raw)
 optima.price=read.csv(path.price, sep=";")
 names(optima.price)[1]="Product Code"
 
-#optima.spares.p=merge(optima.spares, optima.price, by="Product Code")
-#optima.DB=rbind(optima.warranty, optima.oow)
-#optima.spares.DB=merge(optima.spares.p, optima.DB,  by="ServiceNo")
+optima.spares.p=merge(optima.spares, optima.price, by="Product Code")
+optima.DB=rbind(optima.warranty, optima.oow)
+optima.spares.DB=merge(optima.spares.p, optima.DB,  by="ServiceNo")
 
 temp_table=ddply(optima.spares.p, "ServiceNo", numcolwise(sum))[c(1,4)]
 optima.DB=merge(optima.DB, temp_table, by="ServiceNo", all.x=T)
@@ -46,7 +46,12 @@ optima.DB[which(is.na(optima.DB[,11])),11]=0
 #optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9], "%d.%m.%Y", origin="1900-01-01")
 #optima.DB[,9]=as.Date(as.numeric(optima.DB[,9]), origin="1900-01-01")
 
+for(i in 1:length(list.files(path))){
+optima.DB[which(optima.DB[,12]==i),12]=list.files(path)[i]
+optima.spares.DB[which(optima.spares.DB[,18]==i),3]=list.files(path)[i]
+}
+
 colnames(optima.DB)[13]="Type"
 colnames(optima.DB)[14]="Cost of spares"
 write.table(optima.DB, "Optima DB.csv", sep=";", row.names=F)
-write.table(optima.spares.p, "Optima spares DB.csv", sep=";", row.names=F)
+write.table(optima.spares.DB, "Optima spares DB.csv", sep=";", row.names=F)
