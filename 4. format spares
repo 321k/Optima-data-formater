@@ -22,7 +22,7 @@ formatSpares=function(optima.raw){
       if(length(which(is.na(spares[3])))>0) spares=spares[-which(is.na(spares[3])),]
       warrantySpares=rbind(spares, warrantySpares)
     }
-  warrantySpares=warrantySpares[-which(warrantySpares[3]==""),]
+  if(nrow(warrantySpares[-which(warrantySpares[,3]==""),])>0) warrantySpares=warrantySpares[-which(warrantySpares[,3]==""),]
   }
   
   oowSpares=data.frame()
@@ -44,10 +44,10 @@ formatSpares=function(optima.raw){
       spares[4]="OOW"
 
       colnames(spares)=c("ServiceNo", "Source", "Product Code", "Type") 
-      if(length(which(is.na(spares[3])))>0) spares=spares[-which(is.na(spares[3])),]
+      if(length(which(is.na(spares[,3])))>0) spares=spares[-which(is.na(spares[,3])),]
       oowSpares=rbind(spares, oowSpares)
     }
-  #oowSpares=oowSpares[-which(oowSpares[3]==""),]
+  if(nrow(oowSpares[-which(oowSpares[,3]==""),])>0) oowSpares=oowSpares[-which(oowSpares[,3]==""),]
   }
   
   output=rbind(warrantySpares, oowSpares)
