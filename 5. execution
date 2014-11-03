@@ -46,6 +46,7 @@ optima.DB[which(is.na(optima.DB[,11])),11]=0
 #optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9]=as.Date(optima.DB[-which(is.na(as.numeric(optima.DB[,9]))),9], "%d.%m.%Y", origin="1900-01-01")
 #optima.DB[,9]=as.Date(as.numeric(optima.DB[,9]), origin="1900-01-01")
 
+#Remember to check that the list of files is correct!
 for(i in 1:length(list.files(path))){
 optima.DB[which(optima.DB[,12]==i),12]=list.files(path)[i]
 optima.spares.p[which(optima.spares.p[,3]==i),3]=list.files(path)[i]
@@ -54,3 +55,5 @@ optima.spares.p[which(optima.spares.p[,3]==i),3]=list.files(path)[i]
 colnames(optima.DB)[13]="Type"
 colnames(optima.DB)[14]="Cost of spares"
 
+write.csv(optima.DB, "Optima Data.csv")
+write.csv(optima.spares.p, "Optima Data.csv")
