@@ -56,4 +56,4 @@ colnames(optima.DB)[13]="Type"
 colnames(optima.DB)[14]="Cost of spares"
 
 write.csv(optima.DB, "Optima Data.csv")
-write.csv(optima.spares.p, "Optima Data.csv")
+write.csv(optima.spares.p, "Optima spares DB.csv")
